@@ -38,18 +38,16 @@ namespace Content.Server.Objectives
         {
             foreach (var requirement in _requirements)
             {
-                if (!requirement.CanBeAssigned(mind)) continue;
-            }
-
-            if (!CanBeDuplicateAssignment)
-            {
-                foreach (var objective in mind.AllObjectives)
+                if (!requirement.CanBeAssigned(mind) && !CanBeDuplicateAssignment)
                 {
-                    if (objective.Prototype.ID == ID) return false;
+                    foreach (var objective in mind.AllObjectives)
+                    {
+                        if (objective.Prototype.ID == ID) return false;
+                    }
+                    return true;
                 }
             }
-
-            return true;
+            return false;
         }
 
         public Objective GetObjective(Mind.Mind mind)
